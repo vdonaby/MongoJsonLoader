@@ -62,9 +62,6 @@ public class IrsformsApplication {
 			e.printStackTrace();
 		}
 
-		System.out.println(counter);
-		System.out.println(urls.size());
-
 		for(String urlLink: urls) {
 			StringBuilder result = new StringBuilder();
 			URL url = new URL(urlLink);
