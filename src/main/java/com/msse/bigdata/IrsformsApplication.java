@@ -1,6 +1,7 @@
 package com.msse.bigdata;
 
 import com.mongodb.*;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -9,13 +10,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -34,16 +33,56 @@ public class IrsformsApplication {
 
 		List<String> urls = new ArrayList<>();
 		List<String> filingDocuments = new ArrayList<>();
+		List<Object> indexes = new ArrayList<>();
 
 		Integer numberOfIndexes = 0;
 		Integer numberOfFilings = 0;
 
+
+
 		try {
 
-			parser = new JSONParser();
-			Object obj = parser.parse(new FileReader("/Users/z001hk8/Desktop/UOFM/2017/BigData/IRSData/2015.json"));
-			JSONObject jsonObject = (JSONObject) obj;
-			JSONArray indexes = (JSONArray) jsonObject.get("Filings2015");
+			File path = new File("/Users/z001hk8/Desktop/UOFM/2017/BigData/IRSData/Indexes/");
+
+			File [] files = path.listFiles();
+			for (int i = 11; i <= files.length; i++){
+				if (files[i].isFile()){ //this line weeds out other directories/folders
+					parser = new JSONParser();
+					Object indexYear = parser.parse(new FileReader(files[i]));
+					JSONObject jsonObject = (JSONObject) indexYear;
+					JSONArray indexYearJSON = (JSONArray) jsonObject.get("Filings20" + i);
+					indexes.add(indexYearJSON);
+				}
+			}
+
+
+//			Object filings2011 = parser.parse(new FileReader("/Users/z001hk8/Desktop/UOFM/2017/BigData/IRSData/2011.json"));
+//			Object filings2012 = parser.parse(new FileReader("/Users/z001hk8/Desktop/UOFM/2017/BigData/IRSData/2012.json"));
+//			Object filings2013 = parser.parse(new FileReader("/Users/z001hk8/Desktop/UOFM/2017/BigData/IRSData/2013.json"));
+//			Object filings2014 = parser.parse(new FileReader("/Users/z001hk8/Desktop/UOFM/2017/BigData/IRSData/2014.json"));
+//			Object filings2015 = parser.parse(new FileReader("/Users/z001hk8/Desktop/UOFM/2017/BigData/IRSData/2014.json"));
+//			Object filings2016 = parser.parse(new FileReader("/Users/z001hk8/Desktop/UOFM/2017/BigData/IRSData/2016.json"));
+//
+//			JSONObject jsonObject2011 = (JSONObject) filings2011;
+//			JSONObject jsonObject2012 = (JSONObject) filings2012;
+//			JSONObject jsonObject2013 = (JSONObject) filings2013;
+//			JSONObject jsonObject2014 = (JSONObject) filings2014;
+//			JSONObject jsonObject2015 = (JSONObject) filings2015;
+//			JSONObject jsonObject2016 = (JSONObject) filings2016;
+//
+//			JSONArray indexes2011 = (JSONArray) jsonObject2011.get("Filings2011");
+//			JSONArray indexes2012 = (JSONArray) jsonObject2012.get("Filings2012");
+//			JSONArray indexes2013 = (JSONArray) jsonObject2013.get("Filings2013");
+//			JSONArray indexes2014 = (JSONArray) jsonObject2014.get("Filings2014");
+//			JSONArray indexes2015 = (JSONArray) jsonObject2015.get("Filings2014");
+//			JSONArray indexes2016 = (JSONArray) jsonObject2016.get("Filings2016");
+//
+//			indexes.add(indexes2011);
+//			indexes.add(indexes2012);
+//			indexes.add(indexes2013);
+//			indexes.add(indexes2014);
+//			indexes.add(indexes2015);
+//			indexes.add(indexes2016);
 
 			for(Object index : indexes) {
 				document = new BasicDBObject();
