@@ -8,19 +8,9 @@ import org.json.simple.parser.ParseException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.xml.sax.SAXException;
-import sun.net.www.http.HttpClient;
-
-import javax.swing.text.Document;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +45,8 @@ public class IrsformsApplication {
 				String ein = (String) jsonNumber.get("EIN");
 				String url = (String) jsonNumber.get("URL");
 				urls.add(url);
-				//document.put(ein, jsonNumber.toString());
-				//collection.insert(document);
+				document.put(ein, jsonNumber.toString());
+				collection.insert(document);
 				counter++;
 			}
 		} catch (ParseException e) {
@@ -69,6 +59,8 @@ public class IrsformsApplication {
 		System.out.println(urls.size());
 
 		for(String urlLink: urls) {
+
+
 
 		}
 
