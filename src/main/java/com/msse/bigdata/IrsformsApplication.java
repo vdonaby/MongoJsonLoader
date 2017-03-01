@@ -35,6 +35,7 @@ public class IrsformsApplication {
 		List<String> urls = new ArrayList<>();
 		List<String> filingDocuments = new ArrayList<>();
 
+		Integer numberOfIndexes = 0;
 		Integer numberOfFilings = 0;
 
 		try {
@@ -52,7 +53,7 @@ public class IrsformsApplication {
 				urls.add(url);
 				document.put(ein, jsonNumber.toString());
 				collection.insert(document);
-				numberOfFilings++;
+				numberOfIndexes++;
 			}
 
 		} catch (ParseException e) {
