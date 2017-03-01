@@ -45,7 +45,7 @@ public class IrsformsApplication {
 		try {
 
 			parser = new JSONParser();
-			Object obj = parser.parse(new FileReader("/Users/z001hk8/Desktop/UOFM/2017/BigData/IRSData/2015.json"));
+			Object obj = parser.parse(new FileReader("/2015.json"));
 			JSONObject jsonObject = (JSONObject) obj;
 			JSONArray filings = (JSONArray) jsonObject.get("Filings2015");
 
